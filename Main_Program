@@ -34,8 +34,81 @@ class stack {
 	int Top() {
 		return data[top];
 	}
+	
+	bool IsEmpty() {
+		if (top == -1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	void print() {
+		int i;
+		cout << "Stack : ";
+		for (i = 0; i <= top; i++){
+			cout << data[i] << " ";
+		}
+		cout << endl;
+	}
 };
 
+int prec(char op) {
+    if(op == '*' || op == '/'){
+    	return 2;
+	} else if (op == '+' || op == '-'){
+	    return 1;
+	} else {
+	    return -1;
+	}
+}
+
 int main () {
+	stack s;
+	string Q, P;
+	int jumlah_Q, hasil;
 	
+	cout << "Masukkan ekspresi Infix ";
+	getline(cin, Q);
+	
+	jumlah_Q = Q.length();
+	
+	for (int i=0 ;i < jumlah_Q; i++){
+		if (Q[i] >= '0' && Q[i] <= '9'){
+			P+= Q[i];
+		}
+		else if (Q[i] ==  '('){
+			s.push(Q[i]);
+		}
+		else if (Q[i] == ')'){
+			while (s.IsEmpty() != true && s.Top() != '('){
+				char tmp = s.Top();
+				s.pop();
+				P+= tmp;
+			}
+			if (s.Top() == '('){
+				s.pop();
+			}
+		}
+		if (Q[i] == '+' || Q[i] == '-' || Q[i] == '*' || Q[i] == '/'){
+			if (s.IsEmpty() == true || s.Top() == '('){
+				s.push(Q[i]);
+			}
+		
+		else{
+			while (s.IsEmpty() != true && s.Top() != '(' && prec(Q[i]) <= prec(s.Top())){
+				char tmp=s.Top();
+				s.pop();
+				P+= tmp;
+			}
+			s.push(Q[i]);
+			}	
+		}
+	}
+	while(s.IsEmpty() != true){
+			char tmp=s.Top();
+			s.pop();
+			P+= tmp;
+	}
 }
