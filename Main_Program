@@ -1,8 +1,13 @@
 //Oleh :
-//    Andhika Kurniawan - 1817051027
-
+  //Andhika Kurniawan - 1817051027
+  //Ario Rinaldi - 1817051040
+  //Kurnia Agung Firdaus - 1817051056
+  //Muhammad Alamsyah - 1817051051
+  
+  
 #include <iostream>
-
+#include <cstring>
+#define MAX_STACK_SIZE 20
 using namespace std;
 
 class stack {
@@ -106,9 +111,48 @@ int main () {
 			}	
 		}
 	}
+	
 	while(s.IsEmpty() != true){
 			char tmp=s.Top();
 			s.pop();
 			P+= tmp;
 	}
+	
+	for(int i = 0 ;i < jumlah_Q; i++){
+		if (P[i] >= '0' && P[i] <= '9'){
+			s.push(P[i]);
+		}
+		if ( P[i]=='+' || P[i]=='-' || P[i]=='*' || P[i]=='/' ){
+			int A = s.Top() - '0';  	
+			s.pop();
+			int B = s.Top() - '0'; 
+			s.pop();			 
+			if (P[i]=='+') {
+				hasil = B + A;
+				char tmphasil = hasil + '0'; 
+				s.push(tmphasil);
+			}
+			else if (P[i]=='-') {
+				hasil = B - A;
+				char tmphasil = hasil + '0';
+				s.push(tmphasil);
+			}
+			else if (P[i] =='*') {
+				hasil = B * A;
+				char tmphasil = hasil + '0';
+				s.push(tmphasil);
+			}
+			else if (P[i]=='/') {
+				hasil = B / A;
+				char tmphasil = hasil + '0';
+				s.push(tmphasil);
+			}
+		}
+	}
+	
+	char charhasil = s.Top(); 
+	int hasilakhir = charhasil - '0'; 
+	
+	cout << "Postfix : " << P << endl << endl;
+	cout << "Hasil Akhir = " << hasilakhir << endl;
 }
